@@ -1,0 +1,62 @@
+# Unity
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+[Mm]emory[Cc]aptures/
+
+# Unity generated
+*.pidb
+*.csproj
+*.sln
+*.userprefs
+*.unityproj
+*.booproj
+*.vpuser
+*.vsp
+*.vspx
+*.vspf
+*.vpw
+*.vps
+*.vpt
+*.vpj
+*.vpb
+*.vpc
+*.vps
+*.vpt
+*.vpj
+*.vpb
+*.vpc
+
+# Unity Package Manager
+[Pp]ackages/
+!Packages/manifest.json
+!Packages/packages-lock.json
+
+# Build outputs
+*.apk
+*.aab
+*.ipa
+*.app
+*.exe
+*.dll
+*.pdb
+*.mdb
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project specific
+PHANTOM_EDGE/
+build_log.txt
