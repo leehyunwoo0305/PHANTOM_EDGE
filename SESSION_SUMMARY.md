@@ -2,7 +2,7 @@
 
 ## 프로젝트 환경
 - Unity 6000.5.4f1, URP 파이프라인
-- 프로젝트 경로: `C:\Users\user\Documents\UnityFPS`
+- 프로젝트 경로: `C:\Users\user\Documents\PHANTOM_EDGE`
 - com.unity.ai.navigation 제거 완료
 - CS0618 수정 완료 (FindAnyObjectByType 사용)
 
@@ -22,11 +22,15 @@
 4. **HitPause 스태킹**: 항상 리셋하도록 수정 (previousTimeScale = 1f로 고정)
 5. **EnemyController originalColor**: Start()에서 미리 캐시 (Color.clear 체크 제거)
 6. **벽탐색 후방 추가**: hitB 레이캐스트 + wallNormal 방향 수정 (벽에서 밀려나오는 방향)
+7. **PostProcessing FilmGrain 에러 수정**: Unity 6 URP 호환 위해 `size`, `type` 프로퍼티 제거
+8. **AutoSetup 컴파일 에러 수정**: `CreateButton` 헬퍼 메서드 추가, KatanaTrail→TrailRenderer 타입 불일치 수정
 
 ### 게임플레이 개선
 1. **Coyote Time**: 0.1f - 공중에서도 잠시 점프 가능
 2. **Jump Buffer**: 0.12f - 착지 전 점프 입력 유지
 3. **벽점프 Normal 수정**: 벽을 바라보는 방향 → 벽에서 밀려나오는 방향
+4. **메뉴 시스템 추가**: 메인 메뉴 / 일시정지 / 게임오버 메뉴 전체 구현
+5. **게임 시작 플로우**: 메뉴 → Start 버튼 → 게임 시작 (커서 잠금, 이동 가능)
 
 ### UI/HUD 개선
 1. **데미지 비네팅**: 피격 시 화면 붉은 테두리 + 저체력 시 지속 효과
@@ -43,8 +47,13 @@
 2. **오브젝트 풀**: ObjectPool 시스템 추가 (Spark, Blood, Gib)
 3. **스파크 수 감소**: 12개 → 6개 (성능)
 
+### 비주얼/이펙트 수정
+1. **카타나 회전 수정**: `Quaternion.Euler(10f, 180f, 0f)` → `Quaternion.Euler(90f, 180f, 0f)` - 모델이 눕혀져 있던 문제 해결
+2. **트레일 회전 보정**: Trail 오브젝트 로컬 회전 90도 추가 (블레이드 방향과 정렬)
+3. **아이들 트레일 색상 변경**: 파란색 → 금색/주황 계열 (카타나 모델과 매칭)
+
 ### 이전 세션 작업 포함
-- AutoSetup.cs (에디터 자동 셋업 1,461줄)
+- AutoSetup.cs (에디터 자동 셋업 1,600+줄)
 - PlayerController.cs (카타나 5단계 스윙, 패링, 대시, 슬라이드, 벽점프)
 - EnemyController.cs (Rusher/Shooter AI)
 - EnemySpawner.cs (웨이브 스폰 + FBX 로딩)
@@ -74,14 +83,14 @@ Assets/Models/
 
 ## 실행 방법
 1. Unity 열기
-2. `FPS Tools > Reset Setup Flag`
-3. `FPS Tools > Re-Setup Arena`
-4. Play
+2. `PHANTOM EDGE > Reset Setup Flag`
+3. `PHANTOM EDGE > Re-Setup Arena` (씬 전체 재생성 - 메뉴 포함)
+4. Play → 메인 메뉴에서 Start 클릭 → 게임 시작
 
 ## 파일 구조
 ```
 Assets/
-├── Editor/AutoSetup.cs              ← 아레나 자동 생성
+├── Editor/AutoSetup.cs              ← 아레나 자동 생성 (메뉴 포함)
 ├── Scripts/
 │   ├── Player/
 │   │   ├── PlayerController.cs      ← 근접 전투 + 이동 + 패링
@@ -92,7 +101,7 @@ Assets/
 │   │   ├── EnemyController.cs       ← 적 AI (Rusher/Shooter)
 │   │   └── EnemySpawner.cs          ← 웨이브 스폰
 │   ├── Core/
-│   │   ├── GameManager.cs           ← 게임 상태 관리
+│   │   ├── GameManager.cs           ← 게임 상태 관리 (StartGame/ResetGame 추가)
 │   │   ├── AudioManager.cs          ← 오디오 관리
 │   │   ├── ObjectPool.cs            ← 오브젝트 풀 시스템
 │   │   └── ProceduralAudio.cs       ← 프로시저럴 사운드
@@ -106,14 +115,15 @@ Assets/
 │   │   ├── GrapplePolish.cs         ← 그래플 이펙트
 │   │   ├── MovementEffects.cs       ← 이동 이펙트
 │   │   ├── EnemyDeathEffect.cs      ← 적 사망 연출
-│   │   └── PostProcessingSetup.cs   ← 포스트 프로세싱
+│   │   └── PostProcessingSetup.cs   ← 포스트 프로세싱 (FilmGrain 수정됨)
 │   └── UI/
-│       └── UIManager.cs             ← HUD/UI
+│       ├── UIManager.cs             ← HUD/UI
+│       └── MenuManager.cs           ← 메인/일시정지/게임오버 메뉴 (신규)
 ├── katana.FBX
 ├── handgrip_color.jpg
 ├── Materials/Military/
 ├── Models/                           ← 적 FBX 모델 위치
-└── Scenes/FPS_Arena.unity
+└── Scenes/PHANTOM EDGE_Arena.unity
 ```
 
 ---
@@ -124,3 +134,4 @@ Assets/
 - ModelImporter.animateMaterialProperties 없음 (Unity 6)
 - TransitionInterruptionSource.CurrentState → Source 사용
 - Custom Shaders 필요: Custom/Dissolve, Custom/KatanaAura, Custom/KatanaTrail
+- 메뉴는 `PHANTOM EDGE > Re-Setup Arena` 실행 시 자동 생성됨

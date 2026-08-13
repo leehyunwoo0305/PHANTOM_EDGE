@@ -1040,6 +1040,7 @@ public class AutoSetup
         uiManager.waveAnnounceText = waveAnnounceText.GetComponent<TMPro.TextMeshProUGUI>();
 
         CreateComboUI(canvasGO.transform, uiManager);
+        CreateMainMenu(canvasGO.transform, root);
 
         Debug.Log("[PHANTOM EDGE] UI created with UIManager.");
     }
@@ -1077,8 +1078,6 @@ public class AutoSetup
         crRect.sizeDelta = new Vector2(200, 30);
         uiManager.comboRankText = comboRankObj.GetComponent<TMPro.TextMeshProUGUI>();
         comboRankObj.SetActive(false);
-
-        CreateMainMenu(canvasGO.transform, root);
     }
 
     static void CreateMainMenu(Transform canvasTransform, GameObject root)
