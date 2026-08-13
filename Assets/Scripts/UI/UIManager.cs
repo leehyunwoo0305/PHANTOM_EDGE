@@ -44,6 +44,8 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI gameOverText;
     public TextMeshProUGUI finalScoreText;
 
+    private MenuManager menuManager;
+
     [Header("Wave Announce")]
     public GameObject waveAnnouncePanel;
     public TextMeshProUGUI waveAnnounceText;

@@ -603,7 +603,7 @@ public class AutoSetup
             }
 
             katana.transform.localPosition = new Vector3(0.35f, -0.25f, 0.4f);
-            katana.transform.localRotation = Quaternion.Euler(10f, 180f, 0f);
+            katana.transform.localRotation = Quaternion.Euler(90f, 180f, 0f);
             katana.transform.localScale = Vector3.one * 0.15f;
             katana.AddComponent<WeaponSway>();
             
@@ -636,8 +636,9 @@ public class AutoSetup
             var trailObj = new GameObject("Trail");
             trailObj.transform.SetParent(katana.transform);
             trailObj.transform.localPosition = Vector3.zero;
-            trailObj.transform.localRotation = Quaternion.identity;
+            trailObj.transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
             var trail = trailObj.AddComponent<KatanaTrail>();
+            var trailRenderer = trailObj.GetComponent<TrailRenderer>();
             var trailMat = new Material(Shader.Find("Custom/KatanaTrail"));
             trailMat.SetColor("_Color", new Color(1f, 0.8f, 0.2f));
             trailMat.SetColor("_EmissionColor", new Color(1f, 0.5f, 0.1f));
@@ -651,11 +652,11 @@ public class AutoSetup
             );
             var idleGrad = new Gradient();
             idleGrad.SetKeys(
-                new GradientColorKey[] { new GradientColorKey(new Color(0.3f, 0.7f, 1f, 0.3f), 0f), new GradientColorKey(new Color(0.1f, 0.4f, 0.8f, 0.1f), 1f) },
+                new GradientColorKey[] { new GradientColorKey(new Color(1f, 0.85f, 0.3f, 0.3f), 0f), new GradientColorKey(new Color(1f, 0.5f, 0.1f, 0.1f), 1f) },
                 new GradientAlphaKey[] { new GradientAlphaKey(0.3f, 0f), new GradientAlphaKey(0f, 1f) }
             );
             trail.colorGradient = idleGrad;
-            aura.trailRenderer = trail;
+            aura.trailRenderer = trailRenderer;
             aura.swingTrailGradient = swingGrad;
             aura.idleTrailGradient = idleGrad;
 
@@ -718,7 +719,7 @@ public class AutoSetup
 
         sword.transform.parent = parent.transform;
         sword.transform.localPosition = new Vector3(0.35f, -0.3f, 0.3f);
-        sword.transform.localRotation = Quaternion.Euler(10f, 180f, 0f);
+        sword.transform.localRotation = Quaternion.Euler(90f, 180f, 0f);
         sword.transform.localScale = Vector3.one;
         sword.AddComponent<WeaponSway>();
 
@@ -745,11 +746,12 @@ public class AutoSetup
         aura.pulseSpeed = 2f;
         aura.animateOnSwing = true;
 
-        var trailObj = new GameObject("Trail");
-        trailObj.transform.SetParent(sword.transform);
-        trailObj.transform.localPosition = Vector3.zero;
-        trailObj.transform.localRotation = Quaternion.identity;
-        var trail = trailObj.AddComponent<KatanaTrail>();
+            var trailObj = new GameObject("Trail");
+            trailObj.transform.SetParent(sword.transform);
+            trailObj.transform.localPosition = Vector3.zero;
+            trailObj.transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
+            var trail = trailObj.AddComponent<KatanaTrail>();
+            var trailRenderer = trailObj.GetComponent<TrailRenderer>();
         var trailMat = new Material(Shader.Find("Custom/KatanaTrail"));
         trailMat.SetColor("_Color", new Color(1f, 0.8f, 0.2f));
         trailMat.SetColor("_EmissionColor", new Color(1f, 0.5f, 0.1f));
@@ -767,7 +769,7 @@ public class AutoSetup
             new GradientAlphaKey[] { new GradientAlphaKey(0.3f, 0f), new GradientAlphaKey(0f, 1f) }
         );
         trail.colorGradient = idleGrad;
-        aura.trailRenderer = trail;
+        aura.trailRenderer = trailRenderer;
         aura.swingTrailGradient = swingGrad;
         aura.idleTrailGradient = idleGrad;
 
@@ -1075,6 +1077,72 @@ public class AutoSetup
         crRect.sizeDelta = new Vector2(200, 30);
         uiManager.comboRankText = comboRankObj.GetComponent<TMPro.TextMeshProUGUI>();
         comboRankObj.SetActive(false);
+
+        CreateMainMenu(canvasGO.transform, root);
+    }
+
+    static void CreateMainMenu(Transform canvasTransform, GameObject root)
+    {
+        var menuObj = new GameObject("MenuManager");
+        menuObj.transform.parent = root.transform;
+        var menuManager = menuObj.AddComponent<MenuManager>();
+
+        var mainMenuPanel = CreatePanel(canvasTransform, "MainMenuPanel", new Color(0, 0, 0, 0.8f));
+        var pauseMenuPanel = CreatePanel(canvasTransform, "PauseMenuPanel", new Color(0, 0, 0, 0.8f));
+        pauseMenuPanel.SetActive(false);
+        var gameOverMenuPanel = CreatePanel(canvasTransform, "GameOverMenuPanel", new Color(0, 0, 0, 0.8f));
+        gameOverMenuPanel.SetActive(false);
+
+        menuManager.mainMenuPanel = mainMenuPanel;
+        menuManager.pauseMenuPanel = pauseMenuPanel;
+        menuManager.gameOverMenuPanel = gameOverMenuPanel;
+
+        var startBtnObj = CreateButton(mainMenuPanel.transform, "StartButton", "START",
+            new Vector2(0, 40), new Vector2(200, 50), 24);
+        menuManager.startButton = startBtnObj.GetComponent<UnityEngine.UI.Button>();
+
+        var quitBtnObj = CreateButton(mainMenuPanel.transform, "QuitButton", "QUIT",
+            new Vector2(0, -40), new Vector2(200, 50), 24);
+        menuManager.quitButton = quitBtnObj.GetComponent<UnityEngine.UI.Button>();
+
+        var resumeBtnObj = CreateButton(pauseMenuPanel.transform, "ResumeButton", "RESUME",
+            new Vector2(0, 40), new Vector2(200, 50), 24);
+        menuManager.resumeButton = resumeBtnObj.GetComponent<UnityEngine.UI.Button>();
+
+        var restartBtnObj = CreateButton(pauseMenuPanel.transform, "RestartButton", "RESTART",
+            new Vector2(0, -40), new Vector2(200, 50), 24);
+        menuManager.restartButton = restartBtnObj.GetComponent<UnityEngine.UI.Button>();
+
+        var pauseQuitBtnObj = CreateButton(pauseMenuPanel.transform, "PauseQuitButton", "QUIT TO MENU",
+            new Vector2(0, -120), new Vector2(200, 50), 24);
+        menuManager.pauseQuitButton = pauseQuitBtnObj.GetComponent<UnityEngine.UI.Button>();
+
+        var retryBtnObj = CreateButton(gameOverMenuPanel.transform, "RetryButton", "RETRY",
+            new Vector2(0, 40), new Vector2(200, 50), 24);
+        menuManager.retryButton = retryBtnObj.GetComponent<UnityEngine.UI.Button>();
+
+        var mainMenuBtnObj = CreateButton(gameOverMenuPanel.transform, "MainMenuButton", "MAIN MENU",
+            new Vector2(0, -40), new Vector2(200, 50), 24);
+        menuManager.mainMenuButton = mainMenuBtnObj.GetComponent<UnityEngine.UI.Button>();
+
+        var gameOverQuitBtnObj = CreateButton(gameOverMenuPanel.transform, "GameOverQuitButton", "QUIT",
+            new Vector2(0, -120), new Vector2(200, 50), 24);
+        menuManager.gameOverQuitButton = gameOverQuitBtnObj.GetComponent<UnityEngine.UI.Button>();
+
+        var scoreTextObj = CreateTMPText(gameOverMenuPanel.transform, "GameOverScoreText", "SCORE: 0",
+            new Vector2(0, 120), 28, Color.white, TextAlignmentOptions.Center);
+        menuManager.gameOverScoreText = scoreTextObj.GetComponent<TMPro.TextMeshProUGUI>();
+
+        var waveTextObj = CreateTMPText(gameOverMenuPanel.transform, "GameOverWaveText", "WAVE REACHED: 1",
+            new Vector2(0, 80), 24, new Color(1f, 0.85f, 0.4f), TextAlignmentOptions.Center);
+        menuManager.gameOverWaveText = waveTextObj.GetComponent<TMPro.TextMeshProUGUI>();
+
+        var titleObj = CreateTMPText(mainMenuPanel.transform, "TitleText", "PHANTOM EDGE",
+            new Vector2(0, 150), 60, new Color(1f, 0.85f, 0.4f), TextAlignmentOptions.Center);
+        titleObj.GetComponent<TMPro.TextMeshProUGUI>().enableAutoSizing = true;
+        titleObj.GetComponent<TMPro.TextMeshProUGUI>().fontSizeMax = 80;
+
+        Debug.Log("[PHANTOM EDGE] Main Menu created with MenuManager.");
     }
 
     static GameObject CreateSlider(Transform parent, string name, Vector2 pos, Vector2 size, Color fillColor)
@@ -1151,6 +1219,29 @@ public class AutoSetup
         var img = obj.AddComponent<UnityEngine.UI.Image>();
         img.color = bgColor;
         obj.SetActive(false);
+        return obj;
+    }
+
+    static GameObject CreateButton(Transform parent, string name, string text,
+        Vector2 pos, Vector2 size, float fontSize)
+    {
+        var obj = new GameObject(name);
+        obj.transform.SetParent(parent, false);
+        var rect = obj.AddComponent<RectTransform>();
+        rect.anchorMin = new Vector2(0.5f, 0.5f);
+        rect.anchorMax = new Vector2(0.5f, 0.5f);
+        rect.pivot = new Vector2(0.5f, 0.5f);
+        rect.anchoredPosition = pos;
+        rect.sizeDelta = size;
+        var btn = obj.AddComponent<UnityEngine.UI.Button>();
+        var img = obj.AddComponent<UnityEngine.UI.Image>();
+        img.color = new Color(0.2f, 0.2f, 0.25f);
+        var textObj = CreateTMPText(obj.transform, "Text", text,
+            Vector2.zero, fontSize, Color.white, TextAlignmentOptions.Center);
+        textObj.GetComponent<RectTransform>().sizeDelta = size;
+        textObj.GetComponent<RectTransform>().anchorMin = Vector2.zero;
+        textObj.GetComponent<RectTransform>().anchorMax = Vector2.one;
+        textObj.GetComponent<RectTransform>().pivot = new Vector2(0.5f, 0.5f);
         return obj;
     }
 

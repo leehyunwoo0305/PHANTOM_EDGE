@@ -87,11 +87,15 @@ public class PlayerController : MonoBehaviour
         controller = GetComponent<CharacterController>();
         cam = GetComponentInChildren<Camera>();
         dashesLeft = maxDashes;
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
         if (cam != null) cam.nearClipPlane = 0.05f;
         grapple = GetComponent<GrapplingHook>();
         if (grapple == null) grapple = gameObject.AddComponent<GrapplingHook>();
+    }
+
+    public void OnGameStart()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     void FindWeapons()

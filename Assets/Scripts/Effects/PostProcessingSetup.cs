@@ -126,8 +126,6 @@ public class PostProcessingSetup : MonoBehaviour
         var grain = volumeProfile.TryGet<FilmGrain>(out var g) ? g : volumeProfile.Add<FilmGrain>(true);
         grain.active = true;
         grain.intensity.Override(grainIntensity);
-        grain.size.Override(1f);
-        grain.type.Override(FilmGrainType.Classic);
     }
 
     void SetupLensDistortion()

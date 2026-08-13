@@ -74,4 +74,18 @@ public class GameManager : MonoBehaviour
         OnWaveChanged?.Invoke(wave);
         OnKillChanged?.Invoke(kills);
     }
+
+    public void StartGame()
+    {
+        Restart();
+        isGameOver = false;
+    }
+
+    public void ResetGame()
+    {
+        Restart();
+    }
+
+    public int GetScore() => score;
+    public int GetWave() => wave;
 }
