@@ -625,7 +625,7 @@ public class AutoSetup
             auraRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
             auraRenderer.receiveShadows = false;
             var auraFilter = auraObj.AddComponent<MeshFilter>();
-            auraFilter.mesh = katana.GetComponentInChildren<MeshFilter>()?.mesh;
+            auraFilter.sharedMesh = katana.GetComponentInChildren<MeshFilter>()?.sharedMesh;
             auraRenderer.material = auraMat;
             var aura = auraObj.AddComponent<KatanaAura>();
             aura.auraMaterial = auraMat;
@@ -636,7 +636,7 @@ public class AutoSetup
             var trailObj = new GameObject("Trail");
             trailObj.transform.SetParent(katana.transform);
             trailObj.transform.localPosition = Vector3.zero;
-            trailObj.transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
+            trailObj.transform.localRotation = Quaternion.identity;
             var trail = trailObj.AddComponent<KatanaTrail>();
             var trailRenderer = trailObj.GetComponent<TrailRenderer>();
             var trailMat = new Material(Shader.Find("Custom/KatanaTrail"));
@@ -738,7 +738,7 @@ public class AutoSetup
         auraRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
         auraRenderer.receiveShadows = false;
         var auraFilter = auraObj.AddComponent<MeshFilter>();
-        auraFilter.mesh = sword.GetComponentInChildren<MeshFilter>()?.mesh;
+        auraFilter.sharedMesh = sword.GetComponentInChildren<MeshFilter>()?.sharedMesh;
         auraRenderer.material = auraMat;
         var aura = auraObj.AddComponent<KatanaAura>();
         aura.auraMaterial = auraMat;
@@ -749,7 +749,7 @@ public class AutoSetup
             var trailObj = new GameObject("Trail");
             trailObj.transform.SetParent(sword.transform);
             trailObj.transform.localPosition = Vector3.zero;
-            trailObj.transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
+            trailObj.transform.localRotation = Quaternion.identity;
             var trail = trailObj.AddComponent<KatanaTrail>();
             var trailRenderer = trailObj.GetComponent<TrailRenderer>();
         var trailMat = new Material(Shader.Find("Custom/KatanaTrail"));
