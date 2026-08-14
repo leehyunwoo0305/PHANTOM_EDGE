@@ -1086,62 +1086,138 @@ public class AutoSetup
         menuObj.transform.parent = root.transform;
         var menuManager = menuObj.AddComponent<MenuManager>();
 
-        var mainMenuPanel = CreatePanel(canvasTransform, "MainMenuPanel", new Color(0, 0, 0, 0.8f));
-        var pauseMenuPanel = CreatePanel(canvasTransform, "PauseMenuPanel", new Color(0, 0, 0, 0.8f));
+        Color panelBg = new Color(0.05f, 0.05f, 0.08f, 0.95f);
+        Color accentGold = new Color(1f, 0.85f, 0.3f);
+        Color accentOrange = new Color(1f, 0.55f, 0.15f);
+        Color buttonBg = new Color(0.12f, 0.1f, 0.08f);
+        Color buttonHover = new Color(0.25f, 0.2f, 0.12f);
+        Color buttonPressed = new Color(0.35f, 0.28f, 0.15f);
+        Color textColor = new Color(0.95f, 0.9f, 0.8f);
+
+        var mainMenuPanel = CreateStyledPanel(canvasTransform, "MainMenuPanel", panelBg);
+        var pauseMenuPanel = CreateStyledPanel(canvasTransform, "PauseMenuPanel", panelBg);
         pauseMenuPanel.SetActive(false);
-        var gameOverMenuPanel = CreatePanel(canvasTransform, "GameOverMenuPanel", new Color(0, 0, 0, 0.8f));
+        var gameOverMenuPanel = CreateStyledPanel(canvasTransform, "GameOverMenuPanel", panelBg);
         gameOverMenuPanel.SetActive(false);
 
         menuManager.mainMenuPanel = mainMenuPanel;
         menuManager.pauseMenuPanel = pauseMenuPanel;
         menuManager.gameOverMenuPanel = gameOverMenuPanel;
 
-        var startBtnObj = CreateButton(mainMenuPanel.transform, "StartButton", "START",
-            new Vector2(0, 40), new Vector2(200, 50), 24);
+        var startBtnObj = CreateStyledButton(mainMenuPanel.transform, "StartButton", "START",
+            new Vector2(0, 30), new Vector2(280, 60), 28, buttonBg, buttonHover, buttonPressed, textColor, accentGold);
         menuManager.startButton = startBtnObj.GetComponent<UnityEngine.UI.Button>();
 
-        var quitBtnObj = CreateButton(mainMenuPanel.transform, "QuitButton", "QUIT",
-            new Vector2(0, -40), new Vector2(200, 50), 24);
+        var quitBtnObj = CreateStyledButton(mainMenuPanel.transform, "QuitButton", "QUIT",
+            new Vector2(0, -50), new Vector2(280, 50), 24, buttonBg, buttonHover, buttonPressed, textColor, Color.white);
         menuManager.quitButton = quitBtnObj.GetComponent<UnityEngine.UI.Button>();
 
-        var resumeBtnObj = CreateButton(pauseMenuPanel.transform, "ResumeButton", "RESUME",
-            new Vector2(0, 40), new Vector2(200, 50), 24);
+        var resumeBtnObj = CreateStyledButton(pauseMenuPanel.transform, "ResumeButton", "RESUME",
+            new Vector2(0, 40), new Vector2(280, 60), 28, buttonBg, buttonHover, buttonPressed, textColor, accentGold);
         menuManager.resumeButton = resumeBtnObj.GetComponent<UnityEngine.UI.Button>();
 
-        var restartBtnObj = CreateButton(pauseMenuPanel.transform, "RestartButton", "RESTART",
-            new Vector2(0, -40), new Vector2(200, 50), 24);
+        var restartBtnObj = CreateStyledButton(pauseMenuPanel.transform, "RestartButton", "RESTART",
+            new Vector2(0, -30), new Vector2(280, 50), 24, buttonBg, buttonHover, buttonPressed, textColor, Color.white);
         menuManager.restartButton = restartBtnObj.GetComponent<UnityEngine.UI.Button>();
 
-        var pauseQuitBtnObj = CreateButton(pauseMenuPanel.transform, "PauseQuitButton", "QUIT TO MENU",
-            new Vector2(0, -120), new Vector2(200, 50), 24);
+        var pauseQuitBtnObj = CreateStyledButton(pauseMenuPanel.transform, "PauseQuitButton", "QUIT TO MENU",
+            new Vector2(0, -100), new Vector2(280, 50), 24, buttonBg, buttonHover, buttonPressed, textColor, Color.white);
         menuManager.pauseQuitButton = pauseQuitBtnObj.GetComponent<UnityEngine.UI.Button>();
 
-        var retryBtnObj = CreateButton(gameOverMenuPanel.transform, "RetryButton", "RETRY",
-            new Vector2(0, 40), new Vector2(200, 50), 24);
+        var retryBtnObj = CreateStyledButton(gameOverMenuPanel.transform, "RetryButton", "RETRY",
+            new Vector2(0, 40), new Vector2(280, 60), 28, buttonBg, buttonHover, buttonPressed, textColor, accentGold);
         menuManager.retryButton = retryBtnObj.GetComponent<UnityEngine.UI.Button>();
 
-        var mainMenuBtnObj = CreateButton(gameOverMenuPanel.transform, "MainMenuButton", "MAIN MENU",
-            new Vector2(0, -40), new Vector2(200, 50), 24);
+        var mainMenuBtnObj = CreateStyledButton(gameOverMenuPanel.transform, "MainMenuButton", "MAIN MENU",
+            new Vector2(0, -30), new Vector2(280, 50), 24, buttonBg, buttonHover, buttonPressed, textColor, Color.white);
         menuManager.mainMenuButton = mainMenuBtnObj.GetComponent<UnityEngine.UI.Button>();
 
-        var gameOverQuitBtnObj = CreateButton(gameOverMenuPanel.transform, "GameOverQuitButton", "QUIT",
-            new Vector2(0, -120), new Vector2(200, 50), 24);
+        var gameOverQuitBtnObj = CreateStyledButton(gameOverMenuPanel.transform, "GameOverQuitButton", "QUIT",
+            new Vector2(0, -100), new Vector2(280, 50), 24, buttonBg, buttonHover, buttonPressed, textColor, Color.white);
         menuManager.gameOverQuitButton = gameOverQuitBtnObj.GetComponent<UnityEngine.UI.Button>();
 
         var scoreTextObj = CreateTMPText(gameOverMenuPanel.transform, "GameOverScoreText", "SCORE: 0",
-            new Vector2(0, 120), 28, Color.white, TextAlignmentOptions.Center);
+            new Vector2(0, 140), 32, Color.white, TextAlignmentOptions.Center);
         menuManager.gameOverScoreText = scoreTextObj.GetComponent<TMPro.TextMeshProUGUI>();
 
         var waveTextObj = CreateTMPText(gameOverMenuPanel.transform, "GameOverWaveText", "WAVE REACHED: 1",
-            new Vector2(0, 80), 24, new Color(1f, 0.85f, 0.4f), TextAlignmentOptions.Center);
+            new Vector2(0, 100), 26, accentGold, TextAlignmentOptions.Center);
         menuManager.gameOverWaveText = waveTextObj.GetComponent<TMPro.TextMeshProUGUI>();
 
         var titleObj = CreateTMPText(mainMenuPanel.transform, "TitleText", "PHANTOM EDGE",
-            new Vector2(0, 150), 60, new Color(1f, 0.85f, 0.4f), TextAlignmentOptions.Center);
+            new Vector2(0, 160), 72, accentGold, TextAlignmentOptions.Center);
         titleObj.GetComponent<TMPro.TextMeshProUGUI>().enableAutoSizing = true;
-        titleObj.GetComponent<TMPro.TextMeshProUGUI>().fontSizeMax = 80;
+        titleObj.GetComponent<TMPro.TextMeshProUGUI>().fontSizeMax = 90;
+        titleObj.GetComponent<TMPro.TextMeshProUGUI>().fontStyle = FontStyles.Bold;
+
+        var subtitleObj = CreateTMPText(mainMenuPanel.transform, "SubtitleText", "KATANA ARENA",
+            new Vector2(0, 90), 20, new Color(1f, 0.6f, 0.2f), TextAlignmentOptions.Center);
+        subtitleObj.GetComponent<TMPro.TextMeshProUGUI>().fontStyle = FontStyles.UpperCase;
+        subtitleObj.GetComponent<TMPro.TextMeshProUGUI>().characterSpacing = 200;
+
+        var versionObj = CreateTMPText(mainMenuPanel.transform, "VersionText", "v1.0.0",
+            new Vector2(0, -180), 14, new Color(0.5f, 0.45f, 0.4f), TextAlignmentOptions.Center);
 
         Debug.Log("[PHANTOM EDGE] Main Menu created with MenuManager.");
+    }
+
+    static GameObject CreateStyledPanel(Transform parent, string name, Color bgColor)
+    {
+        var obj = new GameObject(name);
+        obj.transform.SetParent(parent, false);
+        var rect = obj.AddComponent<RectTransform>();
+        rect.anchorMin = Vector2.zero;
+        rect.anchorMax = Vector2.one;
+        rect.sizeDelta = Vector2.zero;
+        var img = obj.AddComponent<UnityEngine.UI.Image>();
+        img.color = bgColor;
+        img.raycastTarget = true;
+        obj.SetActive(false);
+        return obj;
+    }
+
+    static GameObject CreateStyledButton(Transform parent, string name, string text,
+        Vector2 pos, Vector2 size, float fontSize,
+        Color normalColor, Color hoverColor, Color pressedColor, Color textColor, Color accentColor)
+    {
+        var obj = new GameObject(name);
+        obj.transform.SetParent(parent, false);
+        var rect = obj.AddComponent<RectTransform>();
+        rect.anchorMin = new Vector2(0.5f, 0.5f);
+        rect.anchorMax = new Vector2(0.5f, 0.5f);
+        rect.pivot = new Vector2(0.5f, 0.5f);
+        rect.anchoredPosition = pos;
+        rect.sizeDelta = size;
+
+        var btn = obj.AddComponent<UnityEngine.UI.Button>();
+        var img = obj.AddComponent<UnityEngine.UI.Image>();
+        img.color = normalColor;
+        img.type = UnityEngine.UI.Image.Type.Sliced;
+
+        var colors = btn.colors;
+        colors.normalColor = normalColor;
+        colors.highlightedColor = hoverColor;
+        colors.pressedColor = pressedColor;
+        colors.selectedColor = hoverColor;
+        colors.disabledColor = new Color(normalColor.r * 0.5f, normalColor.g * 0.5f, normalColor.b * 0.5f, normalColor.a);
+        colors.colorMultiplier = 1f;
+        colors.fadeDuration = 0.1f;
+        btn.colors = colors;
+        btn.transition = UnityEngine.UI.Selectable.Transition.ColorTint;
+
+        var textObj = CreateTMPText(obj.transform, "Text", text,
+            Vector2.zero, fontSize, textColor, TextAlignmentOptions.Center);
+        textObj.GetComponent<RectTransform>().sizeDelta = size;
+        textObj.GetComponent<RectTransform>().anchorMin = Vector2.zero;
+        textObj.GetComponent<RectTransform>().anchorMax = Vector2.one;
+        textObj.GetComponent<RectTransform>().pivot = new Vector2(0.5f, 0.5f);
+        textObj.GetComponent<TMPro.TextMeshProUGUI>().fontStyle = FontStyles.Bold;
+
+        var outline = textObj.AddComponent<UnityEngine.UI.Outline>();
+        outline.effectColor = new Color(0f, 0f, 0f, 0.8f);
+        outline.effectDistance = new Vector2(1, -1);
+
+        return obj;
     }
 
     static GameObject CreateSlider(Transform parent, string name, Vector2 pos, Vector2 size, Color fillColor)

@@ -16,41 +16,32 @@ public class KatanaAura : MonoBehaviour
 
     private MaterialPropertyBlock propBlock;
     private float swingProgress;
+    private bool isSwinging;
+    private Renderer auraRenderer;
 
     void Awake()
     {
         propBlock = new MaterialPropertyBlock();
+        auraRenderer = GetComponent<Renderer>();
         if (auraMaterial == null)
         {
-            auraMaterial = GetComponent<Renderer>().material;
+            auraMaterial = auraRenderer.material;
         }
+        SetAuraVisible(false);
+        if (trailRenderer != null) trailRenderer.emitting = false;
     }
 
     void Update()
     {
-        if (animateOnSwing)
+        if (isSwinging)
         {
             UpdateSwingAura();
         }
         else
         {
-            UpdateIdleAura();
-        }
-    }
-
-    void UpdateIdleAura()
-    {
-        float pulse = Mathf.Sin(Time.time * pulseSpeed) * 0.5f + 0.5f;
-        float intensity = auraIntensity * (0.3f + pulse * 0.4f);
-        
-        propBlock.SetFloat("_Intensity", intensity);
-        propBlock.SetFloat("_PulseSpeed", pulseSpeed);
-        GetComponent<Renderer>().SetPropertyBlock(propBlock);
-
-        if (trailRenderer != null && !trailRenderer.emitting)
-        {
-            trailRenderer.colorGradient = idleTrailGradient;
-            trailRenderer.emitting = true;
+            SetAuraVisible(false);
+            if (trailRenderer != null && trailRenderer.emitting)
+                trailRenderer.emitting = false;
         }
     }
 
@@ -62,7 +53,8 @@ public class KatanaAura : MonoBehaviour
         propBlock.SetFloat("_Intensity", intensity);
         propBlock.SetFloat("_PulseSpeed", pulseSpeed * 3f);
         propBlock.SetFloat("_Distortion", 0.15f + swingProgress * 0.3f);
-        GetComponent<Renderer>().SetPropertyBlock(propBlock);
+        auraRenderer.SetPropertyBlock(propBlock);
+        SetAuraVisible(true);
 
         if (trailRenderer != null)
         {
@@ -72,8 +64,15 @@ public class KatanaAura : MonoBehaviour
         }
     }
 
+    void SetAuraVisible(bool visible)
+    {
+        if (auraRenderer != null)
+            auraRenderer.enabled = visible;
+    }
+
     public void SetSwingState(bool swinging, float progress = 0f)
     {
+        isSwinging = swinging;
         swingProgress = progress;
         
         if (!swinging && trailRenderer != null)
