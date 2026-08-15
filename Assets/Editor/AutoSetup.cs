@@ -1098,21 +1098,6 @@ static void CreateMainMenu(Transform canvasTransform, GameObject root)
         Color textColor = new Color(0.95f, 0.9f, 0.85f);
         Color textDim = new Color(0.6f, 0.55f, 0.5f);
 
-        // Background
-        var bgObj = new GameObject("Background");
-        bgObj.transform.SetParent(canvasTransform, false);
-        var bgRect = bgObj.AddComponent<RectTransform>();
-        bgRect.anchorMin = Vector2.zero;
-        bgRect.anchorMax = Vector2.one;
-        bgRect.sizeDelta = Vector2.zero;
-        var bgImg = bgObj.AddComponent<UnityEngine.UI.Image>();
-        bgImg.color = new Color(0.02f, 0.02f, 0.03f, 1f);
-        menuManager.backgroundImage = bgImg;
-
-        // Menu particles
-        var particlesObj = CreateMenuParticles(canvasTransform);
-        menuManager.menuParticles = particlesObj.GetComponent<ParticleSystem>();
-
         var mainMenuPanel = CreateStyledPanel(canvasTransform, "MainMenuPanel", panelBg);
         var pauseMenuPanel = CreateStyledPanel(canvasTransform, "PauseMenuPanel", panelBg);
         pauseMenuPanel.SetActive(false);
@@ -1131,6 +1116,22 @@ static void CreateMainMenu(Transform canvasTransform, GameObject root)
         menuManager.pauseMenuCanvasGroup = pauseMenuPanel.GetComponent<CanvasGroup>() ?? pauseMenuPanel.AddComponent<CanvasGroup>();
         menuManager.gameOverCanvasGroup = gameOverMenuPanel.GetComponent<CanvasGroup>() ?? gameOverMenuPanel.AddComponent<CanvasGroup>();
         menuManager.settingsCanvasGroup = settingsPanel.GetComponent<CanvasGroup>() ?? settingsPanel.AddComponent<CanvasGroup>();
+
+        // Background (child of mainMenuPanel so it fades with panel)
+        var bgObj = new GameObject("Background");
+        bgObj.transform.SetParent(mainMenuPanel.transform, false);
+        var bgRect = bgObj.AddComponent<RectTransform>();
+        bgRect.anchorMin = Vector2.zero;
+        bgRect.anchorMax = Vector2.one;
+        bgRect.sizeDelta = Vector2.zero;
+        var bgImg = bgObj.AddComponent<UnityEngine.UI.Image>();
+        bgImg.color = new Color(0.02f, 0.02f, 0.03f, 1f);
+        menuManager.backgroundImage = bgImg;
+        bgObj.transform.SetAsFirstSibling();
+
+        // Menu particles
+        var particlesObj = CreateMenuParticles(canvasTransform);
+        menuManager.menuParticles = particlesObj.GetComponent<ParticleSystem>();
 
         // ===== MAIN MENU =====
         var titleObj = CreateTMPText(mainMenuPanel.transform, "TitleText", "PHANTOM EDGE",
