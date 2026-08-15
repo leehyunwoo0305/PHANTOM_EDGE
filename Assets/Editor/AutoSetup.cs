@@ -619,9 +619,9 @@ public class AutoSetup
 
             var auraObj = new GameObject("Aura");
             auraObj.transform.SetParent(katana.transform);
-            auraObj.transform.localPosition = Vector3.zero;
+            auraObj.transform.localPosition = new Vector3(0f, 0f, 0.15f);
             auraObj.transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
-            auraObj.transform.localScale = Vector3.one * 1.2f;
+            auraObj.transform.localScale = Vector3.one * 1.35f;
             var auraRenderer = auraObj.AddComponent<MeshRenderer>();
             auraRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
             auraRenderer.receiveShadows = false;
@@ -732,9 +732,9 @@ public class AutoSetup
 
         var auraObj = new GameObject("Aura");
         auraObj.transform.SetParent(sword.transform);
-        auraObj.transform.localPosition = Vector3.zero;
+        auraObj.transform.localPosition = new Vector3(0f, 0f, 0.15f);
         auraObj.transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
-        auraObj.transform.localScale = Vector3.one * 1.2f;
+        auraObj.transform.localScale = Vector3.one * 1.35f;
         var auraRenderer = auraObj.AddComponent<MeshRenderer>();
         auraRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
         auraRenderer.receiveShadows = false;
