@@ -1097,7 +1097,7 @@ static void CreateMainMenu(Transform canvasTransform, GameObject root)
         Color textColor = new Color(0.95f, 0.9f, 0.85f);
         Color textDim = new Color(0.6f, 0.55f, 0.5f);
 
-        // Background with gradient
+        // Background
         var bgObj = new GameObject("Background");
         bgObj.transform.SetParent(canvasTransform, false);
         var bgRect = bgObj.AddComponent<RectTransform>();
@@ -1106,9 +1106,6 @@ static void CreateMainMenu(Transform canvasTransform, GameObject root)
         bgRect.sizeDelta = Vector2.zero;
         var bgImg = bgObj.AddComponent<UnityEngine.UI.Image>();
         bgImg.color = new Color(0.02f, 0.02f, 0.03f, 1f);
-        var bgGradient = bgObj.AddComponent<UnityEngine.UI.Gradient>();
-        bgGradient.topColor = new Color(0.05f, 0.03f, 0.02f);
-        bgGradient.bottomColor = new Color(0.01f, 0.01f, 0.015f);
         menuManager.backgroundImage = bgImg;
 
         // Menu particles
