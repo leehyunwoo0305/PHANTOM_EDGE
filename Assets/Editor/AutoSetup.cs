@@ -1339,6 +1339,20 @@ static void CreateMainMenu(Transform canvasTransform, GameObject root)
 
     static GameObject CreateStyledPanel(Transform parent, string name, Color bgColor)
     {
+        var obj = new GameObject(name);
+        obj.transform.SetParent(parent, false);
+        var rect = obj.AddComponent<RectTransform>();
+        rect.anchorMin = Vector2.zero;
+        rect.anchorMax = Vector2.one;
+        rect.sizeDelta = Vector2.zero;
+        var img = obj.AddComponent<UnityEngine.UI.Image>();
+        img.color = bgColor;
+        img.raycastTarget = true;
+        obj.SetActive(false);
+        return obj;
+    }
+
+    static GameObject CreateStyledButton(Transform parent, string name, string text,
         Vector2 pos, Vector2 size, float fontSize,
         Color normalColor, Color hoverColor, Color pressedColor, Color textColor, Color accentColor)
     {
