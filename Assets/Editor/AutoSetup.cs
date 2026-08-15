@@ -225,6 +225,7 @@ public class AutoSetup
         CreateEnemySpawner(root);
         CreateGrapplePoints(root);
         CreateUI(root);
+        CreateEventSystem(root);
         CreatePostProcessing(root);
         CreateEffectPrefabs();
 
@@ -1329,6 +1330,15 @@ public class AutoSetup
         mat.SetFloat("_Metallic", metallic);
         mat.SetFloat("_Smoothness", smoothness);
         return mat;
+    }
+
+    static void CreateEventSystem(GameObject root)
+    {
+        var esObj = new GameObject("EventSystem");
+        esObj.transform.parent = root.transform;
+        esObj.AddComponent<UnityEngine.EventSystems.EventSystem>();
+        esObj.AddComponent<UnityEngine.EventSystems.StandaloneInputModule>();
+        Debug.Log("[PHANTOM EDGE] EventSystem created.");
     }
 
     static void CreatePostProcessing(GameObject root)
