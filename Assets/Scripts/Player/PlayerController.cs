@@ -111,6 +111,14 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         if (GameManager.Instance != null && GameManager.Instance.isGameOver) return;
+        
+        // Ensure cursor is locked during gameplay
+        if (Cursor.lockState != CursorLockMode.Locked)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+        
         if (!weaponsSearched) FindWeapons();
 
         GatherInput();
