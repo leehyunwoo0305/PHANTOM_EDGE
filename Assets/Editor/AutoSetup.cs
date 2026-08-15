@@ -497,6 +497,7 @@ public class AutoSetup
         cam.farClipPlane = 300f;
         cam.fieldOfView = 80f;
         cam.clearFlags = CameraClearFlags.Skybox;
+        camObj.tag = "MainCamera";
 
         camObj.AddComponent<AudioListener>();
 
