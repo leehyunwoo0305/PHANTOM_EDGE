@@ -28,6 +28,7 @@ public class KatanaAura : MonoBehaviour
             auraMaterial = auraRenderer.material;
         }
         SetAuraVisible(false);
+        gameObject.SetActive(false);
         if (trailRenderer != null) trailRenderer.emitting = false;
     }
 
@@ -67,7 +68,10 @@ public class KatanaAura : MonoBehaviour
     void SetAuraVisible(bool visible)
     {
         if (auraRenderer != null)
+        {
             auraRenderer.enabled = visible;
+            gameObject.SetActive(visible);
+        }
     }
 
     public void SetSwingState(bool swinging, float progress = 0f)
