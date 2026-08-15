@@ -473,9 +473,12 @@ IEnumerator KatanaSwing()
                 yield return null;
             }
 
-            Ray ray = new Ray(cam.transform.position, cam.transform.forward);
+            Ray ray = new Ray(cam.transform.position + cam.transform.forward * 0.5f, cam.transform.forward);
             bool killed = false;
-            if (Physics.Raycast(ray, out RaycastHit hit, meleeRange))
+            int enemyLayer = 1 << LayerMask.NameToLayer("Enemy");
+            int defaultLayer = 1 << 0;
+            int layerMask = enemyLayer | defaultLayer;
+            if (Physics.Raycast(ray, out RaycastHit hit, meleeRange, layerMask))
             {
                 EnemyController ec = hit.collider.GetComponent<EnemyController>();
                 if (ec == null) ec = hit.collider.GetComponentInParent<EnemyController>();
