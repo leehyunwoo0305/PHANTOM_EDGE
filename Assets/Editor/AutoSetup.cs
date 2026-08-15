@@ -609,8 +609,8 @@ public class AutoSetup
             katana.AddComponent<WeaponSway>();
             
             var auraMat = new Material(Shader.Find("Custom/KatanaAura"));
-            auraMat.SetColor("_Color", new Color(0.2f, 0.6f, 1f));
-            auraMat.SetColor("_EmissionColor", new Color(0.5f, 1f, 1f));
+            auraMat.SetColor("_Color", new Color(1f, 0.7f, 0.2f));
+            auraMat.SetColor("_EmissionColor", new Color(1f, 0.5f, 0.1f));
             auraMat.SetFloat("_Intensity", 5f);
             auraMat.SetFloat("_PulseSpeed", 3f);
             auraMat.SetFloat("_Distortion", 0.15f);
@@ -725,8 +725,8 @@ public class AutoSetup
         sword.AddComponent<WeaponSway>();
 
         var auraMat = new Material(Shader.Find("Custom/KatanaAura"));
-        auraMat.SetColor("_Color", new Color(0.2f, 0.6f, 1f));
-        auraMat.SetColor("_EmissionColor", new Color(0.5f, 1f, 1f));
+        auraMat.SetColor("_Color", new Color(1f, 0.7f, 0.2f));
+        auraMat.SetColor("_EmissionColor", new Color(1f, 0.5f, 0.1f));
         auraMat.SetFloat("_Intensity", 5f);
         auraMat.SetFloat("_PulseSpeed", 3f);
 
