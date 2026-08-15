@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Katana")]
     public int meleeDamage = 35;
-    public float meleeRange = 2.5f;
+    public float meleeRange = 4f;
     public float meleeCooldown = 0.35f;
 
     [Header("Parry")]
@@ -486,7 +486,7 @@ IEnumerator KatanaSwing()
             int enemyLayer = 1 << LayerMask.NameToLayer("Enemy");
             int defaultLayer = 1 << 0;
             int layerMask = enemyLayer | defaultLayer;
-            if (Physics.Raycast(ray, out RaycastHit hit, meleeRange, layerMask))
+            if (Physics.SphereCast(ray, 0.3f, out RaycastHit hit, meleeRange, layerMask))
             {
                 EnemyController ec = hit.collider.GetComponent<EnemyController>();
                 if (ec == null) ec = hit.collider.GetComponentInParent<EnemyController>();
