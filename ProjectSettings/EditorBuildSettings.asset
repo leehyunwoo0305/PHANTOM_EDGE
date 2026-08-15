@@ -4,5 +4,7 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - path: Assets/Scenes/PHANTOM EDGE_Arena.unity
+    enabled: 1
   m_configObjects: {}
