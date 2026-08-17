@@ -86,6 +86,7 @@ public class PlayerController : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
         cam = GetComponentInChildren<Camera>();
+        Debug.Log("[PlayerController] Start - cam found: " + (cam != null) + ", cam name: " + (cam != null ? cam.name : "null"));
         dashesLeft = maxDashes;
         if (cam != null) cam.nearClipPlane = 0.05f;
         grapple = GetComponent<GrapplingHook>();
@@ -94,8 +95,10 @@ public class PlayerController : MonoBehaviour
 
     public void OnGameStart()
     {
+        Debug.Log("[PlayerController] OnGameStart called - locking cursor");
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        Debug.Log("[PlayerController] After lock - Cursor.lockState: " + Cursor.lockState + ", Cursor.visible: " + Cursor.visible);
     }
 
     void FindWeapons()
@@ -115,6 +118,7 @@ public class PlayerController : MonoBehaviour
         // Ensure cursor is locked during gameplay
         if (Cursor.lockState != CursorLockMode.Locked)
         {
+            Debug.Log("[PlayerController Update] Cursor not locked, forcing lock. State: " + Cursor.lockState);
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
@@ -168,7 +172,11 @@ public class PlayerController : MonoBehaviour
 
     void CameraLook()
     {
-        if (Cursor.lockState != CursorLockMode.Locked) return;
+        if (Cursor.lockState != CursorLockMode.Locked) 
+        {
+            Debug.Log("[CameraLook] Cursor not locked: " + Cursor.lockState);
+            return;
+        }
         float mx = Input.GetAxis("Mouse X") * mouseSensitivity;
         float my = Input.GetAxis("Mouse Y") * mouseSensitivity;
         
