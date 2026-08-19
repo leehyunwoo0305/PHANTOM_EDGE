@@ -97,11 +97,6 @@ public class MenuManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.isGameOver = true;
-        }
-
         if (menuParticles != null) menuParticles.Play();
     }
 
@@ -138,6 +133,10 @@ public class MenuManager : MonoBehaviour
 
     public void StartGame()
     {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.StartGame();
+        }
         if (fadeCoroutine != null) StopCoroutine(fadeCoroutine);
         fadeCoroutine = StartCoroutine(FadeAndStart());
     }
@@ -147,10 +146,6 @@ public class MenuManager : MonoBehaviour
         yield return FadeCanvasGroup(mainMenuCanvasGroup, 1f, 0f, 0.3f);
         if (mainMenuPanel != null) mainMenuPanel.SetActive(false);
         
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.StartGame();
-        }
         var player = FindAnyObjectByType<PlayerController>();
         if (player != null) player.OnGameStart();
         Time.timeScale = 1f;
